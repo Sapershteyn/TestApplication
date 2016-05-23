@@ -19,11 +19,11 @@ int procTCPClient()
 
     while(1)
     {
-        printf("Enter message\n");
+        printf("Enter message: \n");
         string inputData;
         cin>>inputData;
 
-        printf("data length:%d\n", inputData.length());
+        printf("Data length: %d\n", inputData.length());
         retVal = tcpClient.SendMsg(inputData);
         if (retVal != 0)
         {
@@ -52,10 +52,11 @@ int procUDPClient()
     }    //start communication
     while(1)
     {
-        printf("Enter message: ");
+        printf("Enter message: \n");
         string inputData;
         cin>>inputData;
 
+        printf("Data length: %d\n", inputData.length());
         retVal = udpClient.SendMsg(inputData);
         if (retVal != 0)
         {
@@ -94,16 +95,6 @@ int main(int argc, char *argv[])
     return retVal;
 }
 
-TCPClient::TCPClient()
-{
-
-}
-
-TCPClient::~TCPClient()
-{
-
-}
-
 int TCPClient::Init()
 {
     WORD ver = MAKEWORD(2,2);
@@ -121,7 +112,6 @@ int TCPClient::Init()
         return 1;
     }
 
-    //Создаем сокет
     clientSock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
     if(clientSock == SOCKET_ERROR)
@@ -144,8 +134,6 @@ int TCPClient::Init()
         WSACleanup();
         return 1;
     }
-
-    printf("Connection made sucessfully\n");
 
     return 0;
 }
@@ -191,7 +179,7 @@ int TCPClient::ReceiveMsg()
             return 1;
         }
     }
-    printf("Got the response from server\n%s\n",data);
+    printf("Got the response from server\n%s\n\n",data);
     return 0;
 }
 
@@ -226,21 +214,11 @@ int TCPClient::SendMsg(string &str)
     return 0;
 }
 
-UDPClient::UDPClient()
-{
-
-}
-
-UDPClient::~UDPClient()
-{
-}
-
 int UDPClient::Init()
 {
     WSADATA wsa;
 
     //Initialise winsock
-    printf("\nInitialising Winsock...");
     WSAStartup(MAKEWORD(2,2),&wsa);
 
     LPHOSTENT hostEnt = gethostbyname("localhost");
@@ -310,7 +288,7 @@ int UDPClient::ReceiveMsg()
             return 1;
         }
     }
-    printf("Got the response from server\n%s\n",data);
+    printf("Got the response from server\n%s\n\n",data);
 
     return 0;
 }

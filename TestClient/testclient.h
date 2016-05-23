@@ -6,9 +6,6 @@ class TCPClient
 private:
     SOCKET clientSock;
 public:
-    TCPClient();
-    ~TCPClient();
-
     int Init();
     void Stop();
     int ReceiveMsg();
@@ -21,9 +18,6 @@ private:
     SOCKET clientSock;
     sockaddr_in si_other;
 public:
-    UDPClient();
-    ~UDPClient();
-
     int Init();
     void Stop();
     int ReceiveMsg();

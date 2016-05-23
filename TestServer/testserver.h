@@ -23,9 +23,6 @@ private:
     SOCKET servSock;
     SOCKET clientSock;
 public:
-    TCPServer();
-    ~TCPServer();
-
     int Init();
     void Stop();
     int ReceiveMsg(Message &msg);
@@ -39,8 +36,6 @@ private:
     int slen;
     struct sockaddr_in si_other;
 public:
-    UDPServer();
-    ~UDPServer();
 
     int Init();
     void Stop();

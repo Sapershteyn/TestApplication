@@ -9,6 +9,9 @@
 #include <stdlib.h>
 #include "testserver.h"
 
+#define UDP_PACKET_LENGTH 512
+#define TCP_PACKET_LENGTH 1024
+
 Message::Message() :
     length(0),
     data(NULL)
@@ -53,11 +56,11 @@ void Message::procData()
     if (numVec.size() > 0)
     {
         printf("Min: %d\n", *(numVec.end() - 1));
-        printf("Max: %d\n", *numVec.begin());
+        printf("Max: %d\n\n", *numVec.begin());
     }
     else
     {
-        printf("Min: 0\nMax: 0\n");
+        printf("Min: 0\nMax: 0\n\n");
     }
 
 }
@@ -133,17 +136,6 @@ int main(int argc, char *argv[])
 
     return 0;
 } 
-
-
-TCPServer::TCPServer()
-{
-
-}
-
-TCPServer::~TCPServer()
-{
-
-}
 
 int TCPServer::Init()
 {
@@ -221,7 +213,7 @@ int TCPServer::ReceiveMsg(Message &msg)
     memset(msg.data, '\0', msg.length + 1);
 
     //Receive Data
-    int pcktLen = 1024;
+    int pcktLen = TCP_PACKET_LENGTH;
     for(int i = 0; i < msg.length; i += pcktLen)
     {
         if (msg.length - i < pcktLen)
@@ -244,8 +236,6 @@ int TCPServer::ReceiveMsg(Message &msg)
 
 int TCPServer::SendMsg(Message& msg)
 {
-    printf("Sending response from server\n");
-
     //send length
     std::string len;
     std::ostringstream oss;
@@ -273,16 +263,6 @@ int TCPServer::SendMsg(Message& msg)
         }
     }
     return 0;
-}
-
-UDPServer::UDPServer()
-{
-
-}
-
-UDPServer::~UDPServer()
-{
-
 }
 
 int UDPServer::Init()
@@ -382,7 +362,7 @@ int UDPServer::SendMsg(Message &msg)
         return SOCKET_ERROR;
     }
 
-    int pcktLen = 512;
+    int pcktLen = UDP_PACKET_LENGTH;
     for(int i = 0; i < msg.length; i+= pcktLen)
     {
         if (msg.length - i < pcktLen)
